@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			.news{
+				margin: 50px auto;
+				width: 381px;
+				height: 280px;
+			}
+			.news .carousel {
+				width: 380px;
+				height: 230px;
+				overflow: hidden;
+				position: relative;
+			}
+			.news .carousel ul{
+				list-style: none;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.news .carousel ul li {
+				width: 380px;
+				height: 230px;
+			}
+			.news .carousel ul li img{
+				width: 100%;
+				height: 100%;
+			}
+			.news .slider{
+				width: 380px;
+				height: 50px;
+			}
+			.news .slider ul{
+				list-style: none;
+			}
+			.news .slider ul li{
+				float: left;
+				width: 66px;
+				height: 40px;
+				border: 5px solid black;
+			}
+			.news .slider ul li.cur{
+				border-color: gold;
+			}
+			.news .slider ul li img{
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="news">
+			<div class="carousel">
+				<ul>
+					<li><img src="img/news/0.jpg" /> </li>
+					<li><img src="img/news/1.jpg" /> </li>
+					<li><img src="img/news/2.jpg" /> </li>
+					<li><img src="img/news/3.jpg" /> </li>
+					<li><img src="img/news/4.jpg" /> </li>
+				</ul>
+			</div>
+			<div class="slider">
+				<ul>
+					<li class="cur"><img src="img/news/0.jpg" /> </li>
+					<li><img src="img/news/1.jpg" /> </li>
+					<li><img src="img/news/2.jpg" /> </li>
+					<li><img src="img/news/3.jpg" /> </li>
+					<li><img src="img/news/4.jpg" /> </li>
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var $news = $(".news");
+			
+			//ul运动
+			var $ulSport = $(".carousel ul");
+			var $li = $(".carousel ul li");
+			var $sliderLi = $(".slider li");
+			
+			//将第一个补足到最后一个
+			$ulSport.append($(".carousel li:first").clone(true));
+			
+			var idx = 0;
+			var timmer = setInterval(move,1500);
+			$news.mouseenter(function(){
+				clearInterval(timmer);
+			})
+			
+			$news.mouseleave(function(){
+				timmer = setInterval(move,1500);
+			})
+			function move(){
+				idx++;
+				$ulSport.animate({"top" : -idx * 230},1000,function(){
+					if(idx > $li.length - 1){
+						idx = 0;
+						$ulSport.css("top",0);
+					}
+				})
+				changeCircles();
+			}
+			
+			$sliderLi.click(function(){
+				//改变信号量
+				idx = $(this).index();
+				//改变图片
+				$ulSport.css("top",-idx * 230);
+				changeCircles();
+			})
+			function changeCircles(){
+				var n = idx > 4 ? 0 : idx;
+				$sliderLi.eq(n).addClass("cur").siblings().removeClass("cur");
+			}
+		</script>
+	</body>
+</html>

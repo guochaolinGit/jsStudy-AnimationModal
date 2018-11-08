@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/animate-2.0.0.js" ></script>
+		<style type="text/css">
+			.breath{
+				width: 560px;
+				height: 300px;
+				position: relative;
+			}
+			/*.breath .btn {
+				position: absolute;
+				left: 0;
+				top: 0;
+			}*/
+			.breath .btn .leftBtn{
+				position: absolute;
+				left: 20px;
+				top: 50%;
+				width: 40px;
+				height: 40px;
+				background-color: #FFD700;
+				margin-top: -20px;
+				border-radius: 50%;
+				z-index: 999;
+				cursor: pointer;
+			}
+			.breath .btn .rightBtn{
+				position: absolute;
+				right: 20px;
+				top: 50%;
+				width: 40px;
+				height: 40px;
+				background-color: #FFD700;
+				margin-top: -20px;
+				border-radius: 50%;
+				z-index: 999;
+				cursor: pointer;
+			}
+			.m_unit ul{
+				list-style: none;
+			}
+			.m_unit ul li{
+				position: absolute;
+				left: 0;
+				top: 0;
+				opacity: 0;
+				display: none;
+			}
+			.m_unit ul li.diplayImg{
+				opacity: 1;
+				display: block;
+			}
+			.circles ul{
+				list-style: none;
+				position: absolute;
+				right: 20px;
+				bottom: 20px;
+				width: 150px;
+			}
+			.circles ul li {
+				float: left;
+				width: 20px;
+				height: 20px;
+				background-color: #ADFF2F;
+				margin-right: 10px;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			.circles ul li.current {
+				background-color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="breath" id="breath">
+			<div class="btn" id="btn">
+				<span class="leftBtn" id="leftBtn"></span>
+				<span class="rightBtn" id="rightBtn"></span>
+			</div>
+			<div class="m_unit" id="m_unit">
+				<ul>
+					<li class="diplayImg"><a href="000"><img src="img/animal/0.jpg"/> </a></li>
+					<li><a href="111"> <img src="img/animal/1.jpg"/> </a></li>
+					<li><a href="222"> <img src="img/animal/2.jpg"/> </a></li>
+					<li><a href="333"> <img src="img/animal/3.jpg"/> </a></li>
+					<li><a href="444"> <img src="img/animal/4.jpg"/></a></li>
+				</ul>
+			</div>
+			<div class="circles" id="circles">
+				<ul>
+					<li class="current"></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var breath = document.getElementById("breath");
+			//按钮
+			var leftBtn = document.getElementById("leftBtn");
+			var rightBtn = document.getElementById("rightBtn");
+			var m_unit = document.getElementById("m_unit");
+			var lis = m_unit.getElementsByTagName("li");
+			var circleLi = document.getElementById("circles").getElementsByTagName("li");
+			var num = 0;
+			var timmer = setInterval(sport,1500);
+			breath.onmouseover = function(){
+				clearInterval(timmer);
+			}
+			breath.onmouseout = function(){
+				timmer = setInterval(sport,1500);
+			}
+			rightBtn.onclick = sport;
+			function sport(){
+				if(lis[num].isanimated)return;
+				animate(lis[num],{"opacity":0},1000,function(){
+					this.style.display = 'none';
+				})
+				num++
+				if(num > lis.length - 1){
+						num = 0;
+				}
+				lis[num].style.display = "block";
+				animate(lis[num],{"opacity":1},1000);
+				changeCircles();
+			}
+			
+			leftBtn.onclick = function(){
+				if(lis[num].isanimated)return;
+				animate(lis[num],{"opacity":0},1000,function(){
+					this.style.display = 'none';
+				})
+				num--;
+				if(num < 0 ){
+						num = lis.length - 1;
+				}
+				lis[num].style.display = "block";
+				animate(lis[num],{"opacity":1},1000);
+				changeCircles();
+			}
+			
+			function changeCircles(){
+				for (var i = 0; i < circleLi.length; i++) {
+					circleLi[i].className = "";
+				}
+				circleLi[num].className = "current"
+			}
+			
+			for (var i = 0; i < circleLi.length; i++) {
+				circleLi[i].index = i;
+				circleLi[i].onclick = function(){
+					if(lis[num].isanimated)return;
+					animate(lis[num],{"opacity":0},1000,function(){
+						this.style.display = "none";
+					})
+					num = this.index;
+					lis[num].style.display = 'block';
+					animate(lis[num],{"opacity":1},1000)
+					changeCircles();
+				}
+			}
+		</script>
+	</body>
+</html>

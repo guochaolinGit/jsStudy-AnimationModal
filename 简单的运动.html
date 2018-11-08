@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 30px;
+				height: 30px;
+				background-color: gold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script type="text/javascript">
+			var box = document.getElementById("box");
+			var width = 30;
+			var height = 30;
+			var newtop = 0;
+			var left = 0;
+			var timmer = setInterval(function(){
+				width += 20;
+				height += 30;
+				newtop += 50;
+				left += 20;
+				box.style.width = width + "px";
+				box.style.height = height + "px";
+				box.style.top = newtop + "px";
+				box.style.left = left + "px";
+			},500)
+			clearInterval(timmer);
+		</script>
+	</body>
+</html>

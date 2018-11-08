@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/animate-2.0.0.js"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.rolling{
+				width: 560px;
+				height: 300px;
+				position: relative;
+				overflow: hidden;
+			}
+			.m_unit {
+				position: relative;
+			}
+			.m_unit ul{
+				list-style: none;
+			}
+			.m_unit ul li{
+				position: absolute;
+				left: 560px;
+				top: 0px;
+			}
+			.m_unit ul li.current{
+				left: 0px;
+			}
+			.rolling .btn .leftBtn{
+				position: absolute;
+				left: 20px;
+				top: 50%;
+				width: 40px;
+				height: 40px;
+				background-color: #FFD700;
+				margin-top: -20px;
+				border-radius: 50%;
+				z-index: 999;
+				cursor: pointer;
+			}
+			.rolling .btn .rightBtn{
+				position: absolute;
+				right: 20px;
+				top: 50%;
+				width: 40px;
+				height: 40px;
+				background-color: #FFD700;
+				margin-top: -20px;
+				border-radius: 50%;
+				z-index: 999;
+				cursor: pointer;
+			}
+			.circles ul{
+				list-style: none;
+				position: absolute;
+				right: 20px;
+				bottom: 20px;
+				width: 150px;
+			}
+			.circles ul li {
+				float: left;
+				width: 20px;
+				height: 20px;
+				background-color: #ADFF2F;
+				margin-right: 10px;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			.circles ul li.current {
+				background-color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="rolling">
+			<div class="btn" id="btn">
+				<span class="leftBtn" id="leftBtn"></span>
+				<span class="rightBtn" id="rightBtn"></span>
+			</div>
+			<div class="m_unit" id="m_unit">
+				<ul>
+					<li class="current"><img src="img/animal/0.jpg" /> </li>
+					<li><img src="img/animal/1.jpg" /> </li>
+					<li><img src="img/animal/2.jpg" /> </li>
+					<li><img src="img/animal/3.jpg" /> </li>
+					<li><img src="img/animal/4.jpg" /> </li>
+				</ul>
+			</div>
+			<div class="circles" id="circles">
+				<ul>
+					<li class="current"></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var m_unit = document.getElementById("m_unit");
+			var lis = m_unit.getElementsByTagName("li");
+			var leftBtn = document.getElementById("leftBtn");
+			var rightBtn = document.getElementById("rightBtn");
+			var circles = document.getElementById("circles").getElementsByTagName("li");
+			
+			var len = lis.length;
+			var num = 0;
+			rightBtn.onclick = function(){
+				if(lis[num].isanimated)return;
+				animate(lis[num],{"left":'-560px'},1000)
+				num++;
+				if(num > len - 1){
+					num = 0;	
+				}
+				lis[num].style.left = "560px";
+				animate(lis[num],{"left":0},1000)
+				changeCircles();
+			}
+			leftBtn.onclick = function(){
+				if(lis[num].isanimated)return;
+				animate(lis[num],{"left":'560px'},1000)
+				num--;
+				if(num < 0){
+					num = len - 1;	
+				}
+				lis[num].style.left = "-560px";
+				animate(lis[num],{"left":0},1000)
+				changeCircles();
+			}
+			function changeCircles(){
+				for (var i = 0; i < circles.length; i++) {
+					circles[i].className = "";
+				}
+				circles[num].className = "current";
+			}
+			for (var i = 0; i < circles.length; i++) {
+				circles[i].index = i;
+				circles[i].onclick = function(){
+					var index = this.index;
+					if(lis[num].isanimated)return;
+					if(index > num){
+						animate(lis[num],{"left":'-560px'},1000)
+						num = index;
+						lis[num].style.left = "560px";
+						animate(lis[num],{"left":0},1000)
+					}else if(index < num) {
+						animate(lis[num],{"left":'560px'},1000)
+						num = index;
+						lis[num].style.left = "-560px";
+						animate(lis[num],{"left":0},1000)
+					}
+					changeCircles();
+				}
+			}
+		</script>
+	</body>
+</html>

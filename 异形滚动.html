@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/animate-2.0.0.js" ></script>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			.house{
+				margin: 100px auto;
+				width: 670px;
+				height: 221px;
+				background: url(img/house/pic_bg.gif);
+				position: relative;
+				overflow: hidden;
+			}
+			.house ul{
+				list-style: none;
+			}
+			.house ul li{
+				position: absolute;
+				opacity: 1;
+			}
+			.house ul li img{
+				width: 100%;
+				height: 100%;
+			}
+			.house ul li.stateA{width: 55px;height: 37px;left:-55px;top: 84px; opacity: 0; filter:alpha(opacity=0);}
+			.house ul li.stateB{width: 71px;height: 54px;left:16px;top: 67px;}
+			.house ul li.stateC{width: 122px;height: 86px;left:104px;top: 35px;}
+			.house ul li.stateD{width: 161px;height: 112px;left:247px;top: 16px;}
+			.house ul li.stateE{width: 122px;height: 86px;left:436px;top: 35px;}
+			.house ul li.stateF{width: 71px;height: 54px;left:583px;top: 67px;}
+			.house ul li.stateG{width: 55px;height: 37px;left:678px;top: 84px; opacity: 1;filter:alpha(opacity=0);}
+			
+			.rightBtn{
+				position: absolute;
+				top: 151px;
+				right: 20px;
+				width: 40px;
+				height: 40px;
+				background-color: red;
+			}
+			
+			.leftBtn{
+				position: absolute;
+				top: 151px;
+				left: 20px;
+				width: 40px;
+				height: 40px;
+				background-color: red;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="house" id="house">
+			<ul>
+				<li class="stateA"><img src="img/shuzi/1.png"/></li>
+				<li class="stateB"><img src="img/shuzi/2.png"/></li>
+				<li class="stateC"><img src="img/shuzi/3.png"/></li>
+				<li class="stateD"><img src="img/shuzi/4.png"/></li>
+				<li class="stateE"><img src="img/shuzi/5.png"/></li>
+				<li class="stateF"><img src="img/shuzi/6.png"/></li>
+				<li class="stateG"><img src="img/shuzi/7.png"/></li>
+			</ul>
+			<div class="btns">
+				<span class="leftBtn" id="leftBtn"></span>
+				<span class="rightBtn" id="rightBtn"></span>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			//思路 : 
+			//布局：因为数据需要不断的轮换，且左右可以点击，所以将要展示的数据分为中心和两边模块（两边的用于数据的轮换）
+			//实现: 每一个位置的定位locJson是固定的，只需要将图片移动到这个位置上就可以(位置数组locArr，始终不变)
+			//移动过后，相当于左或右的图片变多了，需要移动到另一侧，供轮换展示，这个是改变属性瞬移过去
+			//图片imgJson，图片瞬移后，需要改变imgjson在imgArr的位置
+			var house = document.getElementById("house");
+			var lis = document.getElementsByTagName("li");
+			var rightBtn = document.getElementById("rightBtn");
+			var leftBtn = document.getElementById("leftBtn");
+			var locArr = [];
+			var imgArr = [];
+			//位置json获取 计算属性
+			for (var i = 0; i < lis.length; i++) {
+				locArr.push(
+					{
+						"width" : parseInt(fetchComputedStyle(lis[i],"width")),
+						"height" : parseInt(fetchComputedStyle(lis[i],"height")),
+						"left" : parseInt(fetchComputedStyle(lis[i],"left")),
+						"top" : parseInt(fetchComputedStyle(lis[i],"top")),
+						"opacity" : parseInt(fetchComputedStyle(lis[i],"opacity"))
+					}
+				) 
+				//lis是类数组，不是真正的数组，没有pop方法,所以将li作为对象放入新的数组对象
+				imgArr.push(lis[i]);
+			}
+			var timmer = setInterval(yixing,1200);
+			rightBtn.onclick = yixing;
+			
+			house.onmouseover = function(){
+				clearInterval(timmer);
+			}
+			house.onmouseout = function(){
+				timmer = setInterval(yixing,1200);
+			}
+			function yixing(){
+				if(imgArr[1].isanimated)return ;
+				//imgArr和locArr的数据，图片和位置是一一对应的，当点击变化的时候，目标为 imgArr.index + | - 1
+				//点击时候将img数组中的元素往左移动
+				//imgArr中是总数，移动的只有 1 ~ length - 1中的数据，0 和 length - 1的数据隐藏作为轮换时使用
+				//目标位置为 imgArr中的索引在locArr中的前一个位置
+				for (var i = 1; i <= 6; i++) {
+					animate(imgArr[i],locArr[i - 1],1000);
+				}
+				//移动完成后，将imgArr的布局瞬移到locArr的最后一个位置，再将索引切换
+				for(var k in locArr[6]){
+					imgArr[0].style[k] = locArr[6][k] + "px";
+				}
+				imgArr.push(imgArr.shift());
+			}
+			
+			leftBtn.onclick=function(){
+				if(imgArr[1].isanimated)return ;
+				for (var i = 0; i <= 5; i++) {
+					animate(imgArr[i],locArr[i + 1],1000);
+				}
+				//移动完成后，将imgArr的布局瞬移到locArr的最后一个位置，再将索引切换
+				for(var k in locArr[6]){
+					imgArr[6].style[k] = locArr[0][k] + "px";
+				}
+				imgArr.unshift(imgArr.pop());
+			}
+		</script>
+	</body>
+</html>

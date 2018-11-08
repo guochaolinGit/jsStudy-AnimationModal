@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.rolling{
+				width: 1260px;
+				height: 130px;
+				border: 5px solid gray;
+				position: relative;
+				margin: 50px auto;
+				overflow: hidden;
+			}
+			.rolling .m_unit{
+				width: 5000px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			
+			.rolling .m_unit ul {
+				list-style: none;
+			}
+			
+			.rolling .m_unit ul li{
+				float: left;
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="rolling" id="rolling">
+			<div class="m_unit" id="m_unit">
+				<ul>
+					<li><a href="#"><img src="img/shuzi/0.png" /></a></li>
+					<li><a href="#"><img src="img/shuzi/1.png" /></a></li>
+					<li><a href="#"><img src="img/shuzi/2.png" /></a></li>
+					<li><a href="#"><img src="img/shuzi/3.png" /></a></li>
+					<li><a href="#"><img src="img/shuzi/4.png" /></a></li>
+					<li><a href="#"><img src="img/shuzi/5.png" /></a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+//			思路:布局不要脱离现实，现实中这些图片都可以被点击，而轮播需要图片并排摆放 
+//				要移动元素必须要定位，靠属性控制方向
+//				一个页面展示6张图,当图片向左移动的时候,右侧是空白,
+//				所以需要用移动的图片替换,但是还没有移动完成之前,右侧是无法得到的,
+//				因此复制所有的图片,当图片向左移动到最后一个的时候,复制的图片刚好将位置占满,
+//				此时及时将真图拉回到复制图片的位置,即可完成循环(m_unit很重要，负责存放超出的图片，移动的也是m_unit)
+			var m_unit = document.getElementById("m_unit");
+			var rolling = document.getElementById("rolling");
+			var ulIn = m_unit.getElementsByTagName("ul")[0];
+			var length = ulIn.getElementsByTagName("li").length;
+			var nowLeft = 0;
+			ulIn.innerHTML += ulIn.innerHTML;
+			var timmer ;
+			move();
+			m_unit.onmouseover = function(){
+				clearInterval(timmer);
+			}
+			
+			m_unit.onmouseout = function(){
+				move()
+			}
+			
+			function move(){
+//				clearInterval(timmer);
+				timmer  = setInterval(function(){
+				nowLeft -= 3;
+				if(nowLeft < - 210 * length){
+					nowLeft = 0
+				}
+				m_unit.style.left = nowLeft + "px";
+			},10);
+			}
+		</script>
+	</body>
+</html>

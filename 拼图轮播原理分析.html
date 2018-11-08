@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<style type="text/css">
+			div {
+				width: 56px;
+				height: 30px;
+				position: absolute;
+				background: url(img/animal/0.jpg);
+			}
+		</style>
+	</head>
+	<body>
+		<!--先将图片动态的分成10 * 10份 每一份的宽高是56 * 30-->
+		<script type="text/javascript">
+			for(var i = 0;i < 10;i++){//行
+				for (var j = 0;j < 10;j++){ //列
+					//新创建的节点
+					var $div = $("<div></div>");
+					//设置节点的定位属性
+					$div.css({
+						"left" : 0,
+						"top" : 0,
+						"background-position" : -j * 56 + "px " + -i * 30 + "px"
+					})
+					
+					$("body").append($div);
+				}
+			}
+			
+			$("div").each(function(i){
+				$(this).delay(i % 10 * 56).animate({
+					"left" : i % 10 * 56,
+					"top" : parseInt(i / 10) * 30},1000);
+				})
+		</script>
+		
+	</body>
+</html>

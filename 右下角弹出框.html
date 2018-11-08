@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.info{
+				width: 228px;
+				height: 405px;
+				position: fixed;
+				right: -188px;
+				bottom: -365px;
+				/*padding-top: 35px;*/
+				background: url(img/bg.png) no-repeat;
+			}
+			.info .btn{
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				left: 0;
+				top: 0;
+				background: url(img/pic1.png);
+				text-indent: -999px;
+			}
+			.info .cur{
+				background: url(img/pic2.png) ;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="info">
+			<a href="javascript:;" class="btn">点击收起展开</a>
+			<div>
+				
+			</div>
+		</div>
+		<script type="text/javascript">
+			var state = true;
+			$(".btn").click(function(){
+				if($(".info").is(":animated")){
+					return
+				}
+				if(state){
+					$(".info").animate({"right" : 0},1000);
+					$(".info").animate({"bottom" : 0},1000);
+					$(this).addClass("cur")
+					state = false;
+				}else if(!state) {
+					$(".info").animate({"bottom" : -365},1000);
+					$(".info").animate({"right" : -188},1000);
+					$(this).removeClass("cur")
+					state = true;
+				}
+				
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				width: 200px;
+				height: 200px;
+				background-color: skyblue;
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<script type="text/javascript">
+			var d = document.getElementsByTagName("div")[0];
+			
+			function mouseWheelHandler(event){
+				event = event || window.event
+				//阻止默认事件
+				if(event.preventDefault){
+					event.preventDefault();
+				}else {
+					event.returnValue = false;
+				}
+				var direction;
+				if(event.wheelDelta != null){
+					direction = event.wheelDelta > 0 ?1 : -1
+				}else {
+					direction = event.detail > 0? -1 : 1;
+				}
+			}
+			d.onmousewheel = mouseWheelHandler;
+			try{
+				d.addEventListener('DOMMouseScroll',mouseWheelHandler,false);
+			}catch(e){
+			}
+			
+		</script>
+	</body>
+</html>

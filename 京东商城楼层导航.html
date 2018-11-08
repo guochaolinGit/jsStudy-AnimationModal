@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/tween.js" ></script>
+		<script type="text/javascript" src="js/animate-2.0.0.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.nav{
+				width: 80px;
+				height: 200px;
+				margin: 10px;
+			}
+			.all{
+				width: 1000px;
+				height: 800px;
+				margin: 0 auto;
+			}
+			.leftNav{
+				display: none;
+				position: fixed;
+				width: 80px;
+				left: 10px;
+				top: 100px;
+				margin-right: 20px;
+				background-color: palevioletred;
+			}
+			.leftNav ul{
+				list-style: none;
+			}
+			.leftNav ul li{
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+			}
+			.leftNav ul li.cur{
+				background-color: brown;
+			}
+			.leftNav ul li a{
+				display: block;
+				text-decoration: none;
+				color: white;
+			}
+			.leftNav ul li a:hover{
+				background-color: palegreen;
+			}
+			.leftNav ul li a.chinese{
+				display: none;
+			}
+			.content{
+				width: 1000px;
+				height: 800px;
+				margin: 0 auto;
+				background-color: gainsboro;
+			}
+			.top{
+				width: 400px;
+				height: 400px;
+				background-color: darkgray;
+			}
+			.floor{
+				width: 1000px;
+				height: 200px;
+				background-color: greenyellow;
+				margin-top: 20px;
+			}
+			.footer{
+				width: 1000px;
+				height: 800px;
+				background-color: gainsboro;
+			}
+			.rocket{
+				display: none;
+				position: fixed;
+				right: 10px;
+				bottom: 10px;
+				width: 150px;
+				height: 260px;
+				background: url(img/rocket.png) no-repeat -430px 0;
+			}
+			.gg{
+				position: absolute;
+				right: 0px;
+				top: 100px;
+				width: 100px;
+				height: 200px;
+				background-color: skyblue;
+			}
+		</style>
+	</head>
+	<body>
+		<!--左侧导航条-->
+		<div class="nav" >
+			<div class="leftNav" id="leftNav">
+				<ul>
+					<li>
+						<a href="javascrpt:;" class="number">1F</a>
+						<a href="javascrpt:;" class="chinese">男装</a>
+					</li>
+					<li>
+						<a href="javascrpt:;" class="number">2F</a>
+						<a href="javascrpt:;" class="chinese">女装</a>
+					</li>
+					<li>
+						<a href="javascrpt:;" class="number">3F</a>
+						<a href="javascrpt:;" class="chinese">童装</a>
+					</li>
+					<li>
+						<a href="javascrpt:;" class="number">4F</a>
+						<a href="javascrpt:;" class="chinese">电子</a>
+					</li>
+					<li>
+						<a href="javascrpt:;" class="number">5F</a>
+						<a href="javascrpt:;" class="chinese">美食</a>
+					</li>
+					<li>
+						<a href="javascrpt:;" class="number">6F</a>
+						<a href="javascrpt:;" class="chinese">饮品</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="all" id="all">
+			<div class="content" id="content"></div>
+			<div class="floor no1"></div>
+			<div class="floor no2"></div>
+			<div class="floor no3"></div>
+			<div class="floor no4"></div>
+			<div class="floor no5"></div>
+			<div class="floor no6"></div>
+			<div class="footer"></div>
+		</div>
+		<div class="rocket" id="rocket">
+		</div>
+		<div class="gg" id="gg"></div>
+		<script type="text/javascript">
+//			获取所有的楼层div
+			var allFloor = document.getElementById("all");
+			var content = document.getElementById("content");
+			var leftNav = document.getElementById("leftNav");
+			var lis = leftNav.getElementsByTagName("li");
+			var rocket = document.getElementById("rocket");
+			
+			var child = allFloor.childNodes;
+			var floorArr = [];
+			var floorOffsetTopArr = [];
+			for(var i = 0;i < child.length;i++){
+				if(child[i].className != null && child[i].className.indexOf("floor") != -1){
+					floorArr.push(child[i]);
+					floorOffsetTopArr.push(getAllTop(child[i]));
+				}
+			}
+			floorOffsetTopArr.push(floorArr[floorArr.length - 1].clientHeight + floorOffsetTopArr[floorArr.length - 1]);
+			var gg = document.getElementById("gg");
+			var height = gg.offsetHeight;
+			guanggao();
+			window.onresize = guanggao;
+			function guanggao(){
+				var clientHeight = document.documentElement.clientHeight;
+				var scollTop = document.documentElement.scrollTop;
+				var y = scollTop + (clientHeight - height)/2;
+				animate(gg,{"top":y},600)
+			}
+			//第一个参数t表示当前帧编号
+			//第二个参数b表示起始位置
+			//第三个参数c表示变化量
+			//第四个参数d表示总帧数
+			rocket.onclick = function(){
+				move(0,3000);
+			}
+			var sigl = true;
+			function move(target,time){
+				sigl = false;
+				//起始位置 
+				var scollTop = document.documentElement.scrollTop;
+				//变化量
+				var bhl = target - scollTop;
+				var interval = 30;
+				//总帧数
+				var maxTimes = time / interval;
+				var num = 0;
+				clearInterval(timmer);
+				var timmer = setInterval(function(){
+					num++;
+					if(num == maxTimes){
+						clearInterval(timmer);
+						sigl = true;
+					}
+					document.body.scrollTop = document.documentElement.scrollTop = Tween.Linear(num,scollTop,bhl,maxTimes);
+				},interval)
+			}
+			var idx = NaN;
+			window.onscroll = function(event){
+				guanggao();
+				if(!sigl)return;
+				var scollTop = document.documentElement.scrollTop;	
+				//在展示第一个楼层的时候,展示leftNav
+				for (var i = 0; i < floorOffsetTopArr.length; i++) {
+					if(scollTop > floorOffsetTopArr[floorOffsetTopArr.length - 1] -500){
+						rocket.style.display = 'block';
+					}else {
+						rocket.style.display = 'none';
+					}
+					
+					if(scollTop > floorOffsetTopArr[i] - 100&& scollTop < floorOffsetTopArr[i + 1] - 100){
+						leftNav.style.display = 'block';
+						//直接将i赋值给idx,不是NaN需要将上一nav的className设置为false;
+						if(idx != i){
+							
+							!isNaN(idx) && (lis[idx].className = "");
+							idx = i;
+							lis[idx].className = "cur"
+						}
+						break;
+					}
+				}
+				//等于length还没有找到，说明在上下
+				if(i == floorOffsetTopArr.length){
+					leftNav.style.display = 'none';
+					!isNaN(idx) && (lis[idx].className = "cur")
+				}
+			}
+			
+			function getAllTop(obj){
+				var allTop = obj.offsetTop;
+				while(obj = obj.offsetParent){
+					allTop += obj.offsetTop;
+				}
+				return allTop;
+			}
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html{
+				width:100%;
+				height: 100%;
+			}
+			body{
+				width:100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			.container{
+				width:100%;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			div{
+				width:100%;
+				height: 100%;
+			}
+			.b1{background-color: skyblue;}
+			.b2{background-color: orange;}
+			.b3{background-color: pink;}
+			.b4{background-color: yellowgreen;}
+			.b5{background-color: greenyellow;}
+		</style>
+	</head>
+	<body>
+		<div id="container" class="container">
+			<div class="box b1"></div>
+			<div class="box b2"></div>
+			<div class="box b3"></div>
+			<div class="box b4"></div>
+			<div class="box b5"></div>
+		</div>
+		<script type="text/javascript">
+			var container = document.getElementById("container");
+			
+			var idx = 0;
+			function mouseWheelHandler(event){
+				event = event || window.event
+				//阻止默认事件
+				if(event.preventDefault){
+					event.preventDefault();
+				}else {
+					event.returnValue = false;
+				}
+				var direction;
+				if(event.wheelDelta != null){
+					direction = event.wheelDelta > 0 ?1 : -1
+				}else {
+					direction = event.detail > 0? -1 : 1;
+				}
+				idx += -direction;
+				if(idx < 0){
+					idx = 0;
+				}
+				if(idx > 4){
+					idx = 4
+				}
+				container.style.top = -idx * 100 + "%";
+			}
+			container.onmousewheel = mouseWheelHandler;
+			try{
+				container.addEventListener('DOMMouseScroll',mouseWheelHandler,false);
+			}catch(e){
+			}
+		</script>
+	</body>
+</html>

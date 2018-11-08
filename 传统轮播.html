@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.carousel {
+				width: 560px;
+				height: 300px;
+				margin: 100px auto;
+				overflow: hidden;
+				position: relative;
+			}
+			/*这样就脱标了*/
+			
+			.carousel .m_unit {
+				width: 5000px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			
+			.carousel .m_unit ul {
+				list-style: none;
+			}
+			
+			.carousel .m_unit ul li {
+				float: left;
+				width: 560px;
+				height: 300px;
+			}
+			
+			.carousel .circles {
+				width: 200px;
+				position: absolute;
+				right: 20px;
+				bottom: 20px;
+			}
+			
+			.carousel .circles ul {
+				list-style: none;
+			}
+			
+			.carousel .circles ul li {
+				float: left;
+				width: 20px;
+				height: 20px;
+				background-color: greenyellow;
+				border-radius: 50%;
+				margin-right: 5px;
+				cursor: pointer;
+			}
+			
+			.carousel .circles ul li.current {
+				background-color: red;
+			}
+			
+			.carousel .but .leftBut {
+				position: absolute;
+				left: 10px;
+				top: 50%;
+				width: 40px;
+				height: 40px;
+				background-color: yellow;
+				border-radius: 50%;
+				margin-top: -20px;
+				cursor: pointer;
+			}
+			
+			.carousel .but .rightBut {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				width: 40px;
+				height: 40px;
+				background-color: yellow;
+				border-radius: 50%;
+				margin-top: -20px;
+				cursor: pointer;
+			}
+		</style>
+		<script type="text/javascript" src="js/animate-2.0.0.js"></script>
+	</head>
+
+	<body>
+		<div class="carousel" id="carousel">
+			<div class="m_unit" id="m_unit">
+				<ul>
+					<li>
+						<a href="#"><img src="img/animal/0.jpg" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="img/animal/1.jpg" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="img/animal/2.jpg" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="img/animal/3.jpg" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="img/animal/4.jpg" /></a>
+					</li>
+				</ul>
+			</div>
+			<div class="but">
+				<span class="leftBut" id="leftButB"></span>
+				<span class="rightBut" id="rightButB"></span>
+			</div>
+			<div class="circles" id="circles">
+				<ul>
+					<li class="current"></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var m_unit = document.getElementById("m_unit");
+			var leftBut = document.getElementById("leftButB");
+			var rightBut = document.getElementById("rightButB");
+			var imgul = m_unit.getElementsByTagName("ul")[0];
+			var lis = m_unit.getElementsByTagName("li");
+			var firstLi = m_unit.getElementsByTagName("li")[0];
+			var circles = document.getElementById("circles").getElementsByTagName("li");
+
+			//长度
+			var len = lis.length;
+			//图片宽度
+			var wid = 560;
+			//滚动速度
+			var animateTime = 600;
+			//间隔时间
+			var interval = 1000;
+
+			//			复制第一个到img ul的最后一个中
+			imgul.appendChild(firstLi.cloneNode(true));
+			
+			var timmer = setInterval(rightHandler,1500);
+			m_unit.onmouseover = function(){
+				clearInterval(timmer);
+			}
+			m_unit.onmouseout = function(){
+				timmer = setInterval(rightHandler,1500);
+			}
+			var num = 0;
+			rightBut.onclick = rightHandler
+			function rightHandler() {
+				if(m_unit.isanimated) return;
+				num++;
+				changeCircles();
+				animate(m_unit,{"left" : -wid * num},interval,function(){
+					if(num > len - 1){
+						num = 0;
+						this.style.left = '0px';
+					}
+				})
+			}
+			leftBut.onclick = function() {
+				if(m_unit.isanimated) return;
+				num--;
+				if(num < 0){
+					num = len - 1;
+					m_unit.style.left = -wid * len  + "px";
+				}
+				changeCircles();
+				animate(m_unit,{"left" : -wid * num},interval)
+			}
+			for (var i = 0; i < circles.length; i++) {
+				circles[i].index = i;
+				circles[i].onclick = function(){
+					num = this.index;
+					animate(m_unit,{"left" : -wid * num},interval)
+					changeCircles();
+				}
+			}			
+			//这个方法只用于改变小圆点的位置，不能操作num数
+			function changeCircles(){
+				var n = num;
+				if(n == 5){
+					n = 0;
+				}
+				for (var i = 0; i < circles.length; i++) {
+					circles[i].className = "";
+				}
+				circles[n].className = "current";
+			}
+		</script>
+	</body>
+
+</html>

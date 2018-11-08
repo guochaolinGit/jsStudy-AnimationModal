@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.carousel{
+				width : 290px;
+				height : 115px;
+				border: 1px solid red;
+				position: relative;
+				overflow: hidden;
+			}
+			.carousel ul{
+				list-style: none;
+				width: 300px;
+				position: absolute;
+			}
+			.carousel ul li{
+				width: 90px;
+				margin-right: 10px;
+				height: 115px;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="carousel">
+			<ul>
+				<li><img src="img/star/0.png"/> </li>
+				<li><img src="img/star/1.png"/> </li>
+				<li><img src="img/star/2.png"/> </li>
+				<li><img src="img/star/3.png"/> </li>
+				<li><img src="img/star/4.png"/> </li>
+				<li><img src="img/star/5.png"/> </li>
+				<li><img src="img/star/6.png"/> </li>
+				<li><img src="img/star/7.png"/> </li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var ul = $(".carousel ul");
+			//获取所有的li长度,根据长度判断需要补多少个li
+			var liImg = $(".carousel li");
+			var len = liImg.length % 3 ;		//余1补2 余2补1
+			if(len == 2){
+				ul.append($("<li></li>"));
+			}else if(len == 1){
+				ul.append($("<li></li><li></li>"));
+			}
+			//再克隆前三个放置到最后
+			ul.append($(".carousel li:lt(3)").clone(true))
+			
+			$(".carousel").mouseenter(function(){
+				clearInterval(timmer);
+			})
+			$(".carousel").mouseleave(function(){
+				timmer = setInterval(move,1000);
+			})
+			var timmer = setInterval(move,1000);
+			
+			var lenNew = $(".carousel li").length / 3;
+			console.log(lenNew)
+			var idx = 0;
+			function move(){
+				idx++;
+				ul.animate({"top" : -idx * 115},800,function(){
+					if(idx > lenNew - 2){
+						idx = 0;
+						$(this).css("top" , 0)
+					}
+				})
+			}
+			
+		</script>
+	</body>
+</html>

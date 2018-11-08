@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.pingtu{
+				width: 560px;
+				height: 300px;
+				position: relative;
+			}
+			.image div{
+				width: 56px;
+				height: 30px;
+				position: absolute;
+				background: url(img/animal/0.jpg);
+				left:504px;
+				top : 270px;
+				z-index: 8;
+				display: none;
+				top: 0;
+			}
+			.pingtu .imagelist{
+				list-style: none;
+			}
+			.pingtu .imagelist li{
+				display: none;
+			}
+			.pingtu .imagelist li.cur{
+				display: block;
+			}
+			.btn span {
+				position: absolute;
+				top: 50%;
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				background-color: gold;
+				margin-top: -15px;
+				z-index: 10;
+			}
+			.btn .leftBtn{
+				left: 10px;
+			}
+			.btn .rightBtn{
+				right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="pingtu">
+			
+			<div class="btn">
+				<span class="leftBtn"></span>
+				<span class="rightBtn"></span>
+			</div>
+				<!--这是用来展示图片的-->
+			<!--<div class="show"></div>-->
+			<ul class="imagelist">
+				<li class="cur"><img src="img/animal/0.jpg"/></li>
+				<li><img src="img/animal/1.jpg"/></li>
+				<li><img src="img/animal/2.jpg"/></li>
+				<li><img src="img/animal/3.jpg"/></li>
+				<li><img src="img/animal/4.jpg"/></li>
+			</ul>
+			<!--这是用来放置图片的-->
+			<div class="image">
+				
+			</div>
+		
+		</div>
+		<script type="text/javascript">
+			var $imageList = $(".imagelist li");
+			var $images = $(".imagelist img");
+			//将图片分为10 * 10份
+			for(var i = 0;i < 10;i++){
+				for(var j = 0;j < 10;j++){
+					var $div = $("<div></div>");
+					$div.css({
+						"top" : 270,
+						"background-position" : - j * 56 + "px " + - i * 30 + "px"
+					})
+					$(".image").append($div);
+				}
+			}
+			var idx = 0;
+			var lock = true;
+			$(".rightBtn").click(function(){
+				if(!lock) return;
+				idx++;
+				if(idx > 4){
+					idx = 0;
+				}
+				//将下一个需要展示的图片在分片的图片的地方存放好
+				$(".image div").css("background-image" ,"url(" + $images.eq(idx).attr("src") + ")")
+				$(".image div").css("display",'block');
+				$(".image div").each(function(i){
+					$(this).delay(i % 10 * 56).animate({
+						"left" : i % 10 * 56,
+						"top" : parseInt(i / 10) * 30
+					},500)
+				})
+				lock = false;
+				//运动完成之后,将cur移动到当前的图片，并将存放的图片清空
+				setTimeout(function(){
+					$imageList.eq(idx).addClass("cur").siblings().removeClass("cur");
+					$(".image div").css({"left" : 504,"top" : 270,"display" : "none"});
+					lock = true;
+				},1200)
+			})
+		</script>
+	</body>
+</html>

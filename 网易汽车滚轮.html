@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.car {
+				width: 549px;
+				height: 442px;
+				border: 1px solid darkgray;
+			}
+			
+			.car .car_list {
+				width: 549px;
+				height: 412px;
+			}
+			
+			.car .car_list ul {
+				list-style: none;
+				position: relative;
+			}
+			
+			.car .car_list ul li {
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: none;
+			}
+			
+			.car .car_list ul li.cur {
+				display: block;
+			}
+			
+			.car .bar {
+				width: 420px;
+				/*这个高度是因为背景图的高度就是26，如果大于这个高度，下方的图片会被依次展示上来*/
+				height: 26px;
+				line-height: 26px;
+				font-size: 12px;
+				margin: 0 auto;
+				background: url(img/car/car_pic_ctr.png) repeat-x 0 -26px;
+				position: relative;
+			}
+			
+			.car .bar .pic_l {
+				/*float: left;*/
+				position: absolute;
+				left: 0;
+				width: 0px;
+				height: 26px;
+				padding-left: 20px;
+				background: url(img/car/car_pic_ctr.png) no-repeat 0 0px;
+			}
+			
+			.car .bar .pic_r {
+				/*float: right;*/
+				position: absolute;
+				right: 0;
+				width: 0px;
+				height: 26px;
+				/*因为有了padding,图片被位置只能放在padding的左边，通过更改背景图的x将位置更改*/
+				padding-right: 40px;
+				background: url(img/car/car_pic_ctr.png) no-repeat 20px -78px;
+			}
+			
+			.car .bar .pic_c {
+				position: absolute;
+				left: 20px;
+				top: 0px;
+				/*float: left;*/
+				width: 300px;
+				height: 26px;
+				margin: 0 10px 0 30px;
+				background: url(img/car/car_pic_ctr.png) repeat-x 0 -52px;
+				/*position: relative;*/
+				cursor: pointer;
+			}
+			
+			.car .bar .pic_c .slider {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 21px;
+				height: 26px;
+				background: url(img/car/car_pic_ctr.png) no-repeat 0 -104px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="car">
+			<div class="car_list" id="car_list">
+				<ul>
+					<li class="cur"><img src="img/car/0.jpg" /> </li>
+					<li><img src="img/car/1.jpg" /> </li>
+					<li><img src="img/car/2.jpg" /> </li>
+					<li><img src="img/car/3.jpg" /> </li>
+					<li><img src="img/car/4.jpg" /> </li>
+				</ul>
+			</div>
+			<div class="bar" id="bar">
+				<span class="pic_l">0°</span>
+				<span class="pic_c" id="pic_c">
+					<b class="slider" id="slider"></b>
+				</span>
+				<span class="pic_r">180°</span>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var carList = document.getElementById("car_list");
+			var lis = carList.getElementsByTagName("li");
+			var slider = document.getElementById("slider");
+			var bar = document.getElementById("bar");
+			var picC = document.getElementById("pic_c");
+
+			var idx = 0;
+			//最大的移动距离
+			var maxWidth = picC.clientWidth - slider.clientWidth;
+			slider.onmousedown = function(event) {
+				//获取点击时的clientX clientY
+				event = event || window.event;
+				var deltaX = event.clientX - slider.offsetLeft;
+				document.onmousemove = function(event) {
+					event = event || window.event;
+					var x = event.clientX - deltaX;
+					x = parseInt(x / 69.75) * 69.75;
+					if(x < 0) {
+						x = 0
+					}
+					if(x > maxWidth) {
+						x = maxWidth;
+					}
+					//x是按照刻度来运动的，不是移动就变化，一共5张图，总宽度为300，所以每到60的时候就变化
+					slider.style.left = x + "px";
+					event.preventDefault();
+					if(idx != parseInt(x / 69.75)) { //说明改变了
+						//移除旧的图片
+						lis[idx].className = "";
+						idx = parseInt(x / 69.75);
+						lis[idx].className = "cur";
+					}
+
+				}
+			}
+
+			document.onmouseup = function() {
+				document.onmousemove = null;
+			}
+			picC.onmousedown = function(event) {
+				event = event || window.event;
+				var allLeft = getAllLeft(picC);
+				var x = event.clientX - allLeft;
+
+				x = parseInt(x / 69.75) * 69.75;
+				//x是按照刻度来运动的，不是移动就变化，一共5张图，总宽度为300，所以每到60的时候就变化
+				slider.style.left = x + "px";
+				event.preventDefault();
+				//移除旧的图片
+				lis[idx].className = "";
+				idx = parseInt(x / 69.75);
+				lis[idx].className = "cur";
+			}
+
+			function getAllLeft(obj) {
+				var allleft = obj.offsetLeft;
+
+				while(obj = obj.offsetParent) {
+					allleft += obj.offsetLeft;
+				}
+				return allleft;
+			}
+		</script>
+	</body>
+
+</html>

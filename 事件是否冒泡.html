@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				width: 200px;
+				height: 200px;
+				background-color: yellowgreen;
+			}
+			p {
+				width: 100px;
+				height: 100px;
+				background-color: hotpink;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<p></p>
+		</div>
+		<script type="text/javascript">
+			var count = 0;
+			var d = document.getElementsByTagName("div")[0];
+//			d.onmouseover = function(){
+//				console.log(count++);
+//			}
+			d.onmouseenter = function(){
+				console.log(count++);
+			}
+		</script>
+	</body>
+</html>

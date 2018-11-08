@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+	<!--实现思路:
+		是数据按照li竖向排放的
+		1、每次显示都有图片、文字和虚拟框，所以这些东西可以放到一起，在一个li中，靠定位决定元素的位置
+		2、小圆点要显示在图片下方，为了保证在同一个元素中，方便操作位置，所以将位置的height设置为图片的高度+原点的line-height
+		3、将height设置高之后，会导致图片因为宽度不够往下掉，会有bug，所以display-none(本来就应该是这个，因为没有这个属性，图片中的文字会互相折叠)
+	-->
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.carousel{
+				width: 672px;
+				height: 350px;
+				margin: 50px auto;
+				position: relative;
+				overflow: hidden;
+			}
+			.carousel .imagelist{
+				height: 320px;
+			}
+			.carousel .imagelist ul li{
+				list-style: none;
+				/*默认不展示,如果展示的话,图片会因为宽度不够往下掉,而h3会重叠在一起*/
+				display: none;
+			}
+			
+			.carousel .imagelist ul li.current{
+				display: block;
+			}
+			.carousel .but img{
+				cursor: pointer;
+			}
+			.left{
+				position: absolute;
+				top: 50%;
+				left: 20px;
+				margin-top: -27.5px;
+			}
+			.right{
+				position: absolute;
+				top: 50%;
+				right: 20px;
+				margin-top: -27.5px;
+			}
+			.circles{
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				width: 150px;
+				margin-left: -75px;
+			}
+			.circles ul li{
+				float: left;
+				list-style: none;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				background-color: skyblue;
+				margin-right: 10px;
+				cursor: pointer;
+			}
+			
+			.circles ul li.current{
+				background-color: red;
+			}
+			.carousel .blackmask{
+				position: absolute;
+				bottom: 30px;
+				left: 0;
+				width: 100%;
+				height: 50px;
+				background-color: black;
+				opacity:0.1;
+			}
+			
+			.carousel .imagelist ul li h3{
+				position: absolute;
+				height: 60px;
+				line-height: 60px;
+				padding-left: 10px;
+				color:white;
+				font-size:18px;
+				bottom: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="carousel">
+			<div class="imagelist" id="imagelist">
+				<ul>
+					<li class="current">
+						<a href="#">
+							<img src="img/aaa.jpg" />
+						</a>
+						<div class="blackmask"></div>
+						<h3>一周美图|谁的眼色撩人？高圆圆媚，汤唯暖，宋仲基帅炸</h3>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/bbb.jpg" />
+						</a>
+						<div class="blackmask"></div>
+						<h3>男星中规中矩，女星小心机尽显！华</h3>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/ccc.jpg" />
+						</a>
+						<div class="blackmask"></div>
+						<h3>8岁的小公主美美哒田亮为女儿范冰冰庆生晒礼物美照</h3>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/ddd.jpg" />
+						</a>
+						<div class="blackmask"></div>
+						<h3>有爱心的女人最美！黄奕捐赠获澳夫人见证…</h3>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/eee.jpg" />
+						</a>
+						<div class="blackmask"></div>
+						<h3>活泼搞怪不像妈！黄奕女儿森碟走秀呆萌可爱</h3>
+					</li>
+				</ul>
+			</div>
+			<div class="but">
+				<img src="img/slide-btnL.png" class="left" id="left"/>
+				<img src="img/slide-btnR.png" class="right" id="right"/>
+			</div>
+			<div class="circles" id="circles">
+				<ul>
+					<li class="current"></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			
+		</div>
+		<script type="text/javascript">
+			var left = document.getElementById("left");
+			var right = document.getElementById("right");
+			var circlesLi = document.getElementById("circles").getElementsByTagName("li");
+			var imagelistLi = document.getElementById("imagelist").getElementsByTagName("li");
+			
+			var currentImg = 0;
+			function changImg(){
+				for (var i = 0; i < circlesLi.length; i++) {
+					circlesLi[i].className = "";
+				}
+				for (var i = 0; i < imagelistLi.length; i++) {
+					imagelistLi[i].className = "";
+				}
+				circlesLi[currentImg].className = 'current';
+				imagelistLi[currentImg].className = 'current';
+			};
+			//点击按钮先将所有图片的样式清除，再吧将要显示的图片class设置为current
+			left.onclick = function(){
+				currentImg++;
+				if(currentImg > 4){
+					currentImg = 0;
+				}
+				changImg();
+			}
+			
+			right.onclick = function(){
+				currentImg--;
+				if(currentImg < 0){
+					currentImg = 4;
+				}
+				changImg();
+			}
+			
+			for (var i = 0; i < circlesLi.length; i++) {
+				(function(i){
+					circlesLi[i].onclick=function(){
+						currentImg = i;
+						changImg();
+					}
+				})(i)
+				
+			}
+		</script>
+	</body>
+</html>

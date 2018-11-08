@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				width: 560px;
+				height: 100px;
+				border: 1px solid gainsboro;
+			}
+			
+			div p{
+				float: left;
+				height: 50px;
+				width: 50px;
+				background-color: skyblue;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<span>开始玩吧</span>
+		<div>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+		</div>
+		<script type="text/javascript">
+			var arr = document.getElementsByTagName("p");
+			var s = document.getElementsByTagName("span")[0];
+			for (var i = 0; i < arr.length; i++) {
+				(function(i){
+					arr[i].onmouseover = function(){
+						for (var j = 0; j < arr.length; j++) {
+							arr[j].style.backgroundColor = 'skyblue';
+						}
+						this.style.backgroundColor = 'red';
+						s.innerHTML = i ;
+					}
+				})(i)
+			}
+		</script>
+	</body>
+</html>

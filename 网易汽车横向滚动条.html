@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.car{
+				width: 800px;
+				height: 146px;
+				border: 1px solid lightgray;
+				position: relative;
+			}
+			.car .content {
+				width: 800px;
+				position: relative;
+			}
+			/*必须浮动,否则info中的内容浮动脱标会覆盖这个按钮*/
+			.car .content .leftBtn{
+				width: 21px;
+				height: 146px;
+				float: left;
+				/*子绝父相*/
+				position: relative;
+			}
+			.car .content .leftBtn a{
+				width: 21px;
+				height: 65px;
+				background: url(img/car/bg05.png) no-repeat;
+				/*必须要绝对定位,因为父亲浮动飘起来了,不定位,会在标准流中,被隐藏*/
+				position: absolute;
+				left: 0;
+				top: 20px;
+			}
+			.car .content .rightBtn{
+				width: 21px;
+				height: 146px;
+				float: left;
+				position: relative;
+			}
+			.car .content .rightBtn a{
+				position: absolute;
+				left: 0;
+				top: 20px;
+				width: 21px;
+				height: 65px;
+				background: url(img/car/bg05.png) no-repeat -41px 0px;
+			}
+			.car .content .info {
+				width: 758px;
+				height: 130px;
+				position: relative;
+				float: left;
+				overflow: hidden;
+			}
+			.car .content .info ul{
+				list-style: none;
+				/*为了让图片展示完*/
+				width: 2000px;
+				/*ul为运动单元*/
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.car .content .info ul li{
+				float: left;
+				margin-right: 10px;
+			}
+			.car .slider {
+				float: left;
+				width: 758px;
+				height: 17px;
+				position: absolute;
+				left: 21px;
+				bottom: 0;
+				background-color: #2b2b2b;
+			}
+			.car .slider .span1{
+				position: absolute;
+				left: 0;
+				top: 1px;
+				width: 80px;
+				height: 16px;
+				/*这儿不写no-repeat，让背景随宽度不断扩大*/
+				background: url(img/car/bg07.png) 0 -32px;
+			}
+			.car .slider .left{
+				position: absolute;
+				left : 0;
+				top : 0;
+				width: 11px;
+				height: 16px;
+				background: url(img/car/bg07.png);
+			}
+			.car .slider .right{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 11px;
+				height: 16px;
+				background: url(img/car/bg07.png) no-repeat -24px 0;
+			}
+			.car .slider .center{
+				position: absolute;
+				left: 50%;
+				top: 0;
+				width: 10px;
+				height: 16px;
+				margin-left: -5px;
+				background: url(img/car/bg07.png) -14px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="car">
+			<div class="content">
+				<div  class="leftBtn">
+					<a href="javascript:;" id="leftBtn"></a>
+				</div>
+				<div class="info">
+					<ul id="m_unit">
+						<li><img src="img/shuzi/0.png" /> </li>
+						<li><img src="img/shuzi/1.png" /> </li>
+						<li><img src="img/shuzi/2.png" /> </li>
+						<li><img src="img/shuzi/3.png" /> </li>
+						<li><img src="img/shuzi/4.png" /> </li>
+						<li><img src="img/shuzi/5.png" /> </li>
+						<li><img src="img/shuzi/6.png" /> </li>
+					</ul>
+				</div>
+				<div  class="rightBtn">
+					<a href="javascript:;" id="rightBtn"></a>
+				</div>
+			</div>
+			<div class="slider" id="slider">
+				<!--span1是滚动条的大背景，后续跟进图片调整大小都是控制他，如果分开成3个span
+					会分别控制大小，不易实现，，这样简化了逻辑，将变量统一到一个span上面
+				-->
+				<span class="span1" id="span1"> 
+					<span class="left"></span>
+					<span class="center"></span>
+					<span class="right"></span>
+				</span>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+//			运动的是span1,在大盒子slider中
+			var slider = document.getElementById("slider");
+			var span1 = document.getElementById("span1");
+			var m_unit = document.getElementById("m_unit");
+			var leftBtn = document.getElementById("leftBtn");
+			var rightBtn = document.getElementById("rightBtn");
+			
+//			内容的总宽度是li的宽度 + margin-right
+			var lis = document.getElementsByTagName("li");
+			var len = lis.length * 210 - 10; 
+			var rate = 758 / len;
+			span1.style.width = rate * 758 + "px";
+			span1.onmousedown = function(event){
+				event = event || window.event;
+				var deltaX = event.clientX - span1.offsetLeft;
+				document.onmousemove = function(event){
+					event = event || window.event;
+					var x = event.clientX - deltaX;
+					if(x < 10){
+						x = 0;
+					}
+					if(x > slider.clientWidth - span1.clientWidth - 10){
+						x = slider.clientWidth - span1.clientWidth;
+					}
+					span1.style.left = x + "px";
+					m_unit.style.left = - x / rate + "px";
+					event.preventDefault();
+				}
+			}
+			
+			var nowLeft = 0;
+			rightBtn.onclick = function(){
+				nowLeft += 20;
+				if(nowLeft > slider.clientWidth - span1.clientWidth - 10){
+					nowLeft = slider.clientWidth - span1.clientWidth;
+				}
+				span1.style.left = nowLeft + "px";
+				m_unit.style.left = - nowLeft / rate + "px";
+			}
+			leftBtn.onclick = function(){
+				nowLeft -= 20;
+				if(nowLeft < 10){
+					nowLeft = 0;
+				}
+				span1.style.left = nowLeft + "px";
+				m_unit.style.left = - nowLeft / rate + "px";
+			}
+			document.onmouseup = function(){
+				document.onmousemove = null;
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				width: 100px;
+				height: 100px;
+				background-color: skyblue;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<script type="text/javascript">
+			var box = document.getElementsByTagName("div")[0];
+			//鼠标按下触发事件
+			box.onmousedown = function(event){
+				//鼠标按下的时候有clientX和clientY
+				//left 和top是以左外边框定位的，如果直接用clientX和clientY会导致定位有误差，相当于把鼠标的位置当作外边框定位的，所以要减去误差
+				var x = event.clientX - box.offsetLeft; //减去后为鼠标与左边框的距离
+				var y = event.clientY - box.offsetTop;//减去后为鼠标与上边框的距离
+				//鼠标按下触发文档的move时间
+				document.onmousemove = function(event){
+					box.style.left = event.clientX - x + "px";
+					box.style.top = event.clientY - y + "px";
+				}
+			}
+			box.onmouseup = function(){
+				document.onmousemove = null;
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript">
+//			var a;
+//			function outer(){
+//				function inner(a){
+//					console.log(a)	
+//				}
+//				return inner;
+//			}
+//			var inner = outer();
+//			var inner1 = outer();
+//			a = 2;
+//			inner(a);
+//			a = 3
+//			inner(a)
+			
+//			(function fun(){
+//				alert(0)
+//			})()
+			var arr = [];
+			for (var i = 0; i < 10; i++) {
+				arr[i] = function(){
+					console.log(i)
+				}
+			};
+			arr[1]();
+			arr[6]();
+			arr[9]()
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div {
+				width: 50px;
+				height: 50px;
+				background-color: skyblue;
+				position: absolute;
+				left: 0;
+				top: 0;
+				border: 1px solid red;
+				opacity: 0.2;
+			}
+		</style>
+		<script type="text/javascript" src="js/animate-2.0.0.js">
+			
+		</script>
+	</head>
+
+	<body>
+		<div id="box1"></div>
+		<!--<div id="box2">你好</div>
+		<div id="box3">你好</div>-->
+
+		<script type="text/javascript">
+			var box1 = document.getElementById("box1");
+//			var box2 = document.getElementById("box2");
+//			var box3 = document.getElementById("box3");
+
+			animate(box1, {
+				"width": '100px',
+				"height": '150px',
+				"opacity":0.8
+			}, 1000,function(){
+				box1.style.backgroundColor = "red";
+			});
+			
+//			animate(box2, {
+//				"width": '100px',
+//				"height": '200px',
+//				"left": 100,
+//				"top": 200,
+//				"opacity":1
+//			}, 1500);
+//			animate(box3, {
+//				"width": '100px',
+//				"height": '200px',
+//				"left": 300,
+//				"top": 200,
+//				"opacity":1
+//			}, 1000);
+			//			animate(box2,{'width':100px,'height' : 100px,'left' : 100,'top' : 200},2000);
+			//			animate(box3,{'width':100px,'height' : 100px,'left' : 150,'top' : 300},2000);
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<p>
+			r:<input type="button" value="-" id="leftButR"/>
+			  <input type="text" id="rText"/>
+			  <input type="button" value="+" id="rightButR"/>
+		</p>  
+		<p>
+			g:<input type="button" value="-" id="leftButG"/>
+			  <input type="text" id="gText"/>
+			  <input type="button" value="+" id="rightButG"/>
+		</p>  
+		<p>
+			b:<input type="button" value="-" id="leftButB"/>
+			  <input type="text" id="bText"/>
+			  <input type="button" value="+" id="rightButB"/>
+		</p>  
+		
+		<p><input type="button" value="Go" id="GoBut"/></p>
+		<script type="text/javascript">
+			var leftButR = document.getElementById("leftButR");
+			var leftButG = document.getElementById("leftButG");
+			var leftButB = document.getElementById("leftButB");
+			var rightButR = document.getElementById("rightButR");
+			var rightButG = document.getElementById("rightButG");
+			var rightButB = document.getElementById("rightButB");
+			var rText = document.getElementById("rText");
+			var gText = document.getElementById("gText");
+			var bText = document.getElementById("bText");
+			var GoBut = document.getElementById("GoBut");
+			var r = 100;
+			var g = 100;
+			var b = 100;
+			
+			rText.value = r;
+			gText.value = g;
+			bText.value = b;
+			//设置默认值
+			document.body.style.backgroundColor = "rgb(" + r + "," + g +"," + b+ ")";  
+			
+			
+			function changeColor(){
+				if(r < 0){
+					r = 0;
+				}
+				if(g < 0){
+					g = 0;
+				}
+				if(b < 0){
+					b =0
+				}
+				if(r > 255){
+					r = 255;
+				}
+				if(g > 255){
+					g = 255;
+				}
+				if(b > 255){
+					b = 255
+				}
+				document.body.style.backgroundColor = "rgb(" + r + "," + g +"," + b+ ")";  	
+				rText.value = r;
+				gText.value = g;
+				bText.value = b;
+			}
+			leftButR.onclick = function(){
+				r -= 20
+				changeColor();
+			}
+			leftButG.onclick = function(){
+				g -= 20
+				changeColor();
+			}
+			leftButB.onclick = function(){
+				b -= 20
+				changeColor();
+			}
+			rightButR.onclick = function(){
+				r += 20
+				changeColor();
+			}
+			rightButG.onclick = function(){
+				g += 20
+				changeColor();
+			}
+			rightButB.onclick = function(){
+				b += 20
+				changeColor();
+			}
+			GoBut.onclick=function(){
+				r = rText.value;
+				g = gText.value;
+				b = bText.value;
+				changeColor()
+			}
+		</script>
+	</body>
+</html>

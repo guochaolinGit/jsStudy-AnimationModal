@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.news{
+				width: 600px;
+				height: 600px;
+				border: 1px solid black;
+				position: relative;
+				overflow: hidden;
+			}
+			/*内容要动,所以需要绝对定位*/
+			.news .content{
+				width: 570px;
+				padding-top: 10px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.news .content p{
+				margin-top:20px ;
+			}
+			/*因为content绝对定位，飘起来了，导致标准流留在原地，不绝对定位，就会到标准流去*/
+			.news .slider{
+				background-color: darkgray;
+				border-left: 1px solid red;
+				width: 30px;
+				height: 600px;
+				position: absolute;
+				left: 570px;
+				top: 0;
+			}
+			/*滚动条要动,需要绝对定位*/
+			.news .slider .smallBox{
+				width: 30px;
+				background-color: gold;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="news" id="news">
+			<div class="content" id="content">
+				<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+<p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p><p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p><p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p><p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p><p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p><p>开幕式结束后 习近平"巡馆"看了些什么?
+这个全国首设部门升格为省政府直属|吉林财经大学换帅 前任干半年
+特朗普赴3州拉票不忘嘲讽对手|土耳其女大使因穿这衣服被紧急召回
+中国海军在南海"0距离"拦截美舰|特朗普竞选广告因涉种族歧视被撤</p>
+			</div>
+			<div class="slider" id="slider">
+				<div class="smallBox" id="smallBox"></div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var slider =document.getElementById("slider");
+			var smallBox = document.getElementById("smallBox");
+			var content = document.getElementById("content");
+			var news = document.getElementById("news");
+//			news大盒子的clientHeight是固定的,content可能会被内容撑宽
+			var rate = news.clientHeight / content.clientHeight ;
+//			给滚动条一个初始的高度
+			var initHeight = news.clientHeight * rate;
+			smallBox.style.height = initHeight + "px";
+			var barTop = 0;
+			var contentTop = 0;
+			smallBox.onmousedown = function(event){
+				event = event || window.event;
+				var deltaY = event.clientY - smallBox.offsetTop;
+				
+				document.onmousemove = function(event){
+					event = event || window.event;
+					var barTop = event.clientY - deltaY;
+					if(barTop < 10){
+						barTop = 0
+					}
+					if(barTop > slider.clientHeight - smallBox.clientHeight - 10){
+						barTop = slider.clientHeight - smallBox.clientHeight
+					}
+					contentTop = -barTop / rate;
+					smallBox.style.top =  barTop + "px";
+					content.style.top = contentTop  + "px"; 
+					event.preventDefault();
+				}
+			}
+			document.onmouseup = function(){
+				document.onmousemove = null;
+			}
+			
+			function mouseWheelHandler(event){
+				event = event || window.event
+				//阻止默认事件
+				if(event.preventDefault){
+					event.preventDefault();
+				}else {
+					event.returnValue = false;
+				}
+				var direction;
+				if(event.wheelDelta != null){
+					direction = event.wheelDelta > 0 ?1 : -1
+				}else {
+					direction = event.detail > 0? -1 : 1;
+				}
+				
+				barTop += -20 * direction; 
+				if(barTop < 10){
+					barTop = 0
+				}
+				if(barTop > slider.clientHeight - smallBox.clientHeight - 10){
+					barTop = slider.clientHeight - smallBox.clientHeight
+				}
+				smallBox.style.top =  barTop + "px";
+				contentTop = -barTop / rate;
+				content.style.top = contentTop  + "px"; 
+			}
+			news.onmousewheel = mouseWheelHandler;
+			try{
+				news.addEventListener('DOMMouseScroll',mouseWheelHandler,false);
+			}catch(e){
+			}
+		</script>
+	</body>
+</html>

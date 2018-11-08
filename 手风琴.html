@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.accordion{
+				width: 800px;
+				height: 400px;
+			}
+			.accordion ul{
+				list-style: none;
+			}
+			.accordion ul li {
+				border: 1px solid gray;
+			}
+			.accordion ul li.first p{
+				display: block;
+			}
+			.accordion ul li h3{
+				background-color: deepskyblue;
+				height: 40px;
+				line-height: 40px;
+				text-align: left;
+				cursor: pointer;
+			}
+			.accordion ul li h3.cur{
+				background-color: pink;
+			}
+			.accordion ul li p{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="accordion">
+			<ul>
+				<li class="first">
+					<h3 class="cur">我是老大</h3>
+					<p>习近平强调坚定改革开放再出发信心和决心 特朗普:希望明年初会见金正恩|特朗普:不会在巴黎活动期间会晤普京 西安市长被处分 通报仍称"同志"|陕西反腐风暴:他们都绕不开秦岭 官员斥下属"坐没坐相"如今自己栽了|市长"转正"不到4月成反腐头条 河北一化肥公司发生爆炸 已致6人死亡7人受伤 福建泉港通报碳九泄漏处理情况:大气指标已正常|专家:有毒但非剧毒 楼盘降价被约谈 降价也不行?|深圳村民靠拆迁一夜暴富的机会没了? 小学生作文走红:哀叹每天才5毛零花钱|男子醉卧路边4分钟被卷车底</p>
+				</li>
+				<li>
+					<h3>我是老二</h3>
+					<p>习近平强调坚定改革开放再出发信心和决心 特朗普:希望明年初会见金正恩|特朗普:不会在巴黎活动期间会晤普京 西安市长被处分 通报仍称"同志"|陕西反腐风暴:他们都绕不开秦岭 官员斥下属"坐没坐相"如今自己栽了|市长"转正"不到4月成反腐头条 河北一化肥公司发生爆炸 已致6人死亡7人受伤 福建泉港通报碳九泄漏处理情况:大气指标已正常|专家:有毒但非剧毒 楼盘降价被约谈 降价也不行?|深圳村民靠拆迁一夜暴富的机会没了? 小学生作文走红:哀叹每天才5毛零花钱|男子醉卧路边4分钟被卷车底</p>
+				</li>
+				<li>
+					<h3>我是老三</h3>
+					<p>习近平强调坚定改革开放再出发信心和决心 特朗普:希望明年初会见金正恩|特朗普:不会在巴黎活动期间会晤普京 西安市长被处分 通报仍称"同志"|陕西反腐风暴:他们都绕不开秦岭 官员斥下属"坐没坐相"如今自己栽了|市长"转正"不到4月成反腐头条 河北一化肥公司发生爆炸 已致6人死亡7人受伤 福建泉港通报碳九泄漏处理情况:大气指标已正常|专家:有毒但非剧毒 楼盘降价被约谈 降价也不行?|深圳村民靠拆迁一夜暴富的机会没了? 小学生作文走红:哀叹每天才5毛零花钱|男子醉卧路边4分钟被卷车底</p>
+				</li>
+				<li>
+					<h3>我是老四</h3>
+					<p>习近平强调坚定改革开放再出发信心和决心 特朗普:希望明年初会见金正恩|特朗普:不会在巴黎活动期间会晤普京 西安市长被处分 通报仍称"同志"|陕西反腐风暴:他们都绕不开秦岭 官员斥下属"坐没坐相"如今自己栽了|市长"转正"不到4月成反腐头条 河北一化肥公司发生爆炸 已致6人死亡7人受伤 福建泉港通报碳九泄漏处理情况:大气指标已正常|专家:有毒但非剧毒 楼盘降价被约谈 降价也不行?|深圳村民靠拆迁一夜暴富的机会没了? 小学生作文走红:哀叹每天才5毛零花钱|男子醉卧路边4分钟被卷车底</p>
+				</li>
+			</ul>
+		</div>
+		
+		<script type="text/javascript">
+			$(".accordion ul li h3").click(function(){
+				//先将所有的内容收回
+				$(".accordion ul li p").slideUp();
+				console.log($(this).siblings("p"))
+				//判断兄弟p是否可见，可见的话就收起，并去掉cur
+				if($(this).siblings("p").is(":visible")){
+					$(this).siblings("p").stop(true).slideUp();
+					$(this).removeClass("cur")
+				}else {//不可见需要展开
+					$(".cur").removeClass("cur");
+					$(this).siblings("p").stop(true).slideDown();
+					$(this).addClass("cur");
+				}
+//				$(this).parent().children("p").slideDown();
+			})
+		</script>
+	</body>
+
+</html>
+

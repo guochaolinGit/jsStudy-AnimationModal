@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/animate-2.0.0.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			div{
+				width: 200px;
+				height: 180px;
+				border: 1px solid red;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			ul {
+				position: absolute;
+				left: 0;
+				top: 0;
+				list-style: none;
+			}
+			ul li {
+				line-height: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<ul>
+				<li>注意:今天上班 2</li>
+				<li>注意:明天上班 3</li>
+				<li>注意:后天上班 4</li>
+				<li>注意:大后天上班 5</li>
+				<li>注意:又上班 6</li>
+				<li>注意:再上班 7</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var divSport = document.getElementsByTagName("div");
+			
+			//实际的运动元素是ul
+			var ulSport = document.getElementsByTagName("ul")[0];
+			var lis = ulSport.getElementsByTagName("li");
+			var len = lis.length;
+			ulSport.innerHTML += ulSport.innerHTML;
+			//当前展示的哪一个li
+			var num = 0;
+			var timmer = setInterval(function(){
+				num++;
+				animate(ulSport,{"top":-30 * num},1000,function(){
+					if(num > len - 1){
+						num = 0;
+						ulSport.style.top = "0px";
+					}
+				})
+			},1800)
+		</script>
+	</body>
+</html>

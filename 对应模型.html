@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			
+			div{
+				width: 400px;
+				height: 80px;
+				border: 1px solid gray;
+			}
+			
+			div p{
+				float: left;
+				width: 60px;
+				height: 60px;
+				background-color: gainsboro;
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+		</div>
+		<div>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+			<p></p>
+		</div>
+		
+		<script type="text/javascript">
+			var arr = document.getElementsByTagName("div")[0].getElementsByTagName("p");
+			var arr1 = document.getElementsByTagName("div")[1].getElementsByTagName("p");
+			for (var i = 0; i < arr.length; i++) {
+				(function(i){
+					arr[i].onmouseover=function(){
+						for (var j = 0; j < arr1.length; j++) {
+							arr1[j].style.backgroundColor = "";
+						}
+						arr1[i].style.backgroundColor = 'red';
+					}
+				})(i)
+				
+			}
+		</script>
+	</body>
+</html>

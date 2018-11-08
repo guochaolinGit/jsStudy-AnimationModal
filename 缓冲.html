@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/tween.js">
+			
+		</script>
+		<style type="text/css">
+			div{
+				position: absolute;
+				height: 30px;
+				width: 30px;
+				background-color: yellow;
+				top: 0;
+				left: 0;
+			}
+			#box1{
+				top: 0;
+			}
+			#box2{
+				top: 40px;
+			}
+			#box3{
+				top: 80px;
+			}
+			#box4{
+				top: 120px;
+			}
+			#box5{
+				top: 160px;
+			}
+			#box6{
+				top: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box1"></div>
+		<div id="box2"></div>
+		<div id="box3"></div>
+		<div id="box4"></div>
+		<div id="box5"></div>
+		<div id="box6"></div>
+		<script type="text/javascript">
+			var box1 = document.getElementById("box1");
+			var box2 = document.getElementById("box2");
+			var box3 = document.getElementById("box3");
+			var box4 = document.getElementById("box4");
+			var box5 = document.getElementById("box5");
+			var box6 = document.getElementById("box6");
+			
+			//第一个参数t表示当前帧编号
+			//第二个参数b表示起始位置
+			//第三个参数c表示变化量
+			//第四个参数d表示总帧数
+			var frameNumber = 0;
+			var timmer = setInterval(function(){
+				frameNumber++;
+				if(frameNumber === 150){
+					clearInterval(timmer);
+				}
+				
+				box1.style.left = Tween.Linear(frameNumber , 100 , 900 , 150) + "px";
+				box2.style.left = Tween.QuadEaseIn(frameNumber , 100 , 900 , 150) + "px";
+				box3.style.left = Tween.CubicEaseIn(frameNumber , 100 , 900 , 150) + "px";
+				box4.style.left = Tween.QuartEaseIn(frameNumber , 100 , 900 , 150) + "px";
+				box5.style.left = Tween.BackEaseOut(frameNumber , 100 , 900 , 150 , 3) + "px";
+				box6.style.left = Tween.BounceEaseOut(frameNumber , 100 , 900 , 150) + "px";
+			},30)
+		</script>
+	</body>
+</html>
