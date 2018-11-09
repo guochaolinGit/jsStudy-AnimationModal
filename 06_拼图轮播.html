@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			overflow-x:hidden;
+		}
+		.carousel{
+			width: 560px;
+			height: 300px;
+			position: relative;
+			margin: 100px auto;
+		}
+		.carousel ul {
+			list-style: none;
+		}
+		.carousel ul li{
+			display: none;
+		}
+		.carousel ul li.cur{
+			display: block;
+		}
+		.leftBtn{
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			left: 10px;
+			top: 50%;
+			margin-top: -20px;
+			background-color: yellow;
+			z-index: 9;
+		}
+		.rightBtn{
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			right: 10px;
+			top: 50%;
+			margin-top: -20px;
+			background-color: yellow;
+			z-index: 9;
+		}
+		.jigsaw div{
+			position: absolute;
+			width: 56px;
+			height: 30px;
+			background: url(img/animal/0.jpg);
+			z-index: 8;
+			left: 1000px;
+			top: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="carousel">
+		<div class="btns">
+			<a href="javascript:;" class="leftBtn"></a>
+			<a href="javascript:;" class="rightBtn"></a>
+		</div>
+		<ul class="imageslist">
+			<li class="cur"><a href=""><img src="img/animal/0.jpg" alt="" /></a></li>
+			<li><a href=""><img src="img/animal/1.jpg" alt="" /></a></li>
+			<li><a href=""><img src="img/animal/2.jpg" alt="" /></a></li>
+			<li><a href=""><img src="img/animal/3.jpg" alt="" /></a></li>
+			<li><a href=""><img src="img/animal/4.jpg" alt="" /></a></li>
+		</ul>
+		<div class="jigsaw">
+			<!-- 这里要放置100个div -->
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript">
+		var $imagelis = $(".imageslist li");
+		var $imgs = $(".imageslist img");
+		//创建100个div
+		for(var r = 0 ; r < 10 ; r++){
+			for(var c = 0 ; c < 10 ; c++){
+				$("<div></div>")
+				.css({
+					"background-position" : -56 * c + "px " + -30 * r + "px",
+					"top" : 30 * r
+				})
+				.html(r + " " + c)
+				.appendTo(".jigsaw");
+			}
+		}
+
+		//信号量
+		var idx = 0;
+
+		var $jigsawdivs = $(".jigsaw div");
+
+		var lock = true;
+		//右按钮的监听
+		$(".rightBtn").click(function(){
+			if(!lock) return;
+			//信号量变化
+			idx++;
+			if(idx > 4){
+				idx = 0;
+			}
+
+			//更改jigsaw碎片的背景，改变为对应img的src。
+			//这是一种编程思路，“猫腻”要在点击按钮的一瞬间准备好。
+			$jigsawdivs.css("background-image","url(" + $imgs.eq(idx).attr("src") +")");
+			//延迟动画
+			$jigsawdivs.each(function(i){
+				$(this).delay(i % 10 * 56).animate({
+					"left" : i % 10 * 56,
+					"top" : parseInt(i / 10) * 30
+				},500);
+			});
+
+			lock = false;
+
+			setTimeout(function(){
+				//飞完之后的事情
+				$imagelis.eq(idx).addClass("cur").siblings().removeClass("cur");
+				//撤掉“猫腻”
+				$jigsawdivs.css({"left":1000,"top":0});
+				lock = true;
+			},1200);
+		});
+	</script>
+</body>
+</html>

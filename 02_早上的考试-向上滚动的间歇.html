@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.carousel{
+			width: 290px;
+			height: 115px;
+			border: 1px solid #ccc;
+			margin: 100px auto;
+			position: relative;
+			overflow: hidden;
+		}
+		.carousel ul{
+			width: 300px;
+			list-style: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.carousel ul li{
+			float: left;
+			width: 90px;
+			height: 115px;
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="carousel">
+		<ul>
+			<li><a href="#"><img src="img/star/0.png"  /></a></li>
+			<li><a href="#"><img src="img/star/1.png"  /></a></li>
+			<li><a href="#"><img src="img/star/2.png"  /></a></li>
+			<li><a href="#"><img src="img/star/3.png"  /></a></li>
+			<li><a href="#"><img src="img/star/4.png"  /></a></li>
+			<li><a href="#"><img src="img/star/5.png"  /></a></li>
+			<li><a href="#"><img src="img/star/6.png"  /></a></li>
+			<li><a href="#"><img src="img/star/7.png"  /></a></li>
+ 
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript">
+		//配置参数
+		var option = {
+			"interval" : 1600,
+			"animatetime" : 600,
+			"movestep" : -125
+		};
+
+		var $carousel = $(".carousel");
+		var $ul = $(".carousel ul");
+		//原有图片张数
+ 		var length = $("ul li").length;
+
+ 		//防止穿帮，应该补空li，补充几个？要根据现有的li的个数来决定
+ 		if(length % 3 == 1){
+ 			$("<li></li><li></li>").appendTo("ul");
+ 		}else if(length % 3 == 2){
+ 			$("<li></li>").appendTo("ul");
+ 		}
+ 		//把ul中的li所有下标小于3的，克隆一份，追加到ul里
+ 		$("ul li:lt(3)").clone().appendTo("ul");
+
+ 		//得到克隆之后的所有li的个数
+ 		var lengthall = $("ul li").length;
+
+ 		//定时器间隔调用move函数
+ 		var timer = setInterval(move,option.interval);
+ 		//鼠标进入停止定时器
+ 		$carousel.mouseenter(function(){
+ 			clearInterval(timer);
+ 		});
+ 		//鼠标离开重新启动定时器
+ 		$carousel.mouseleave(function(){
+ 			timer = setInterval(move,option.interval);
+ 		});
+
+ 		//信号量
+ 		var idx = 0;
+
+ 		//动一次，上升一行的动画函数
+ 		function move(){
+ 			idx++;
+			$ul.animate({"top":option.movestep * idx} , option.animatetime , function(){
+				if(idx > lengthall / 3 - 2){
+					idx = 0;
+					$(this).css("top",0);
+				}
+			});
+ 		}
+			 
+	</script>
+</body>
+</html>

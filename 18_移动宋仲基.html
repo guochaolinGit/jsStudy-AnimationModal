@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		img{
+			position: absolute;
+			left: 100px;
+			top: 100px;
+		}
+	</style>
+</head>
+<body>
+	<img src="images/1.jpg" alt="" id="tutu"/>
+
+	<table>
+		<tr>
+			<td><input type="button" value="↖" id="btn1"/></td>
+			<td><input type="button" value="↑" id="btn2"/></td>
+			<td><input type="button" value="↗" id="btn3"/></td>
+		</tr>
+		<tr>
+			<td><input type="button" value="←" id="btn4"/></td>
+			<td></td>
+			<td><input type="button" value="→" id="btn5"/></td>
+		</tr>
+		<tr>
+			<td><input type="button" value="↙" id="btn6"/></td>
+			<td><input type="button" value="↓" id="btn7"/></td>
+			<td><input type="button" value="↘" id="btn8"/></td>
+		</tr>
+	</table>
+
+	
+	<script type="text/javascript">
+		//得到所有东西
+		var oTutu = document.getElementById("tutu");
+	 	var btn1 = document.getElementById("btn1");
+	 	var btn2 = document.getElementById("btn2");
+	 	var btn3 = document.getElementById("btn3");
+	 	var btn4 = document.getElementById("btn4");
+	 	var btn5 = document.getElementById("btn5");
+	 	var btn6 = document.getElementById("btn6");
+	 	var btn7 = document.getElementById("btn7");
+	 	var btn8 = document.getElementById("btn8");
+
+		//全局的变量，可以称为“信号量”
+		var nowleft = 100;
+		var nowtop = 100;
+
+		//8个事件监听
+		btn1.onclick = function(){
+			nowleft -= 10;
+			nowtop -= 10;
+			move();
+		}
+
+		btn2.onclick = function(){
+			nowtop -= 10;
+			move();
+		}
+
+		btn3.onclick = function(){
+			nowleft += 10;
+			nowtop -= 10;
+			move();
+		}
+
+		btn4.onclick = function(){
+			nowleft -= 10;
+			move();
+		}
+
+		btn5.onclick = function(){
+			nowleft += 10;
+			move();
+		}
+
+		btn6.onclick = function(){
+			nowleft -= 10;
+			nowtop += 10;
+			move();
+		}
+
+		btn7.onclick = function(){
+			nowtop += 10;
+			move();
+		}
+
+		btn8.onclick = function(){
+			nowtop += 10;
+			nowleft += 10;
+			move();
+		}
+
+		function move(){
+			oTutu.style.left = nowleft + "px";
+			oTutu.style.top = nowtop + "px";
+		}
+	</script>
+</body>
+</html>

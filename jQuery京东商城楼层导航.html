@@ -5,6 +5,7 @@
 		<title></title>
 		<script type="text/javascript" src="js/tween.js" ></script>
 		<script type="text/javascript" src="js/animate-2.0.0.js" ></script>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
 		<style type="text/css">
 			*{
 				margin: 0;
@@ -47,11 +48,11 @@
 			.leftNav ul li a.number{
 				display: block;
 			}
-			.leftNav ul li a:hover{
-				background-color: palegreen;
-			}
 			.leftNav ul li a.chinese{
 				display: none;
+			}
+			.leftNav ul li a:hover{
+				background-color: palegreen;
 			}
 			.content{
 				width: 1000px;
@@ -70,11 +71,18 @@
 				background-color: greenyellow;
 				margin-top: 20px;
 			}
+			.floor.no0{height: 300px;}
+			.floor.no1{height: 400px;}
+			.floor.no2{height: 200px;}
+			.floor.no3{height: 600px;}
+			.floor.no4{height: 700px;}
+			.floor.no5{height: 800px;}
 			.footer{
 				width: 1000px;
 				height: 800px;
 				background-color: gainsboro;
 			}
+			
 			.rocket{
 				display: none;
 				position: fixed;
@@ -140,101 +148,77 @@
 		</div>
 		<div class="gg" id="gg"></div>
 		<script type="text/javascript">
-//			获取所有的楼层div
-			var allFloor = document.getElementById("all");
-			var content = document.getElementById("content");
-			var leftNav = document.getElementById("leftNav");
-			var lis = leftNav.getElementsByTagName("li");
-			var rocket = document.getElementById("rocket");
+			//所有的楼层
+			var $floor = $(".floor");
+			//获取所有的左侧导航li 与floor应该是对应的
+			var $leftNav = $(".leftNav");
+			var $navArr = $(".leftNav li");
+			var $all = $(".all");
+			var $document = $(window);
+			var $rocket = $(".rocket");
 			
-			var child = allFloor.childNodes;
-			var floorArr = [];
-			var floorOffsetTopArr = [];
-			for(var i = 0;i < child.length;i++){
-				if(child[i].className != null && child[i].className.indexOf("floor") != -1){
-					floorArr.push(child[i]);
-					floorOffsetTopArr.push(getAllTop(child[i]));
-				}
-			}
-			floorOffsetTopArr.push(floorArr[floorArr.length - 1].clientHeight + floorOffsetTopArr[floorArr.length - 1]);
-			var gg = document.getElementById("gg");
-			var height = gg.offsetHeight;
-			guanggao();
-			window.onresize = guanggao;
-			function guanggao(){
-				var clientHeight = document.documentElement.clientHeight;
-				var scollTop = document.documentElement.scrollTop;
-				var y = scollTop + (clientHeight - height)/2;
-				animate(gg,{"top":y},600)
-			}
-			//第一个参数t表示当前帧编号
-			//第二个参数b表示起始位置
-			//第三个参数c表示变化量
-			//第四个参数d表示总帧数
-			rocket.onclick = function(){
-				move(0,3000);
-			}
-			var sigl = true;
-			function move(target,time){
-				sigl = false;
-				//起始位置 
-				var scollTop = document.documentElement.scrollTop;
-				//变化量
-				var bhl = target - scollTop;
-				var interval = 30;
-				//总帧数
-				var maxTimes = time / interval;
-				var num = 0;
-				clearInterval(timmer);
-				var timmer = setInterval(function(){
-					num++;
-					if(num == maxTimes){
-						clearInterval(timmer);
-						sigl = true;
-					}
-					document.body.scrollTop = document.documentElement.scrollTop = Tween.Linear(num,scollTop,bhl,maxTimes);
-				},interval)
-			}
+			//将每一个floor的offsetTop放入数组中
+			var offsetTopArr = [];
+			$floor.each(function(){
+				offsetTopArr.push($(this).offset().top);
+			})
+			//将最后一项放入
+			offsetTopArr.push($floor.last().outerHeight() + $floor.last().offset().top)
+			
+			//信号量
 			var idx = NaN;
-			window.onscroll = function(event){
-				guanggao();
-				if(!sigl)return;
-				var scollTop = document.documentElement.scrollTop;	
-				//在展示第一个楼层的时候,展示leftNav
-				for (var i = 0; i < floorOffsetTopArr.length; i++) {
-					if(scollTop > floorOffsetTopArr[floorOffsetTopArr.length - 1] -500){
-						rocket.style.display = 'block';
-					}else {
-						rocket.style.display = 'none';
-					}
-					
-					if(scollTop > floorOffsetTopArr[i] - 100&& scollTop < floorOffsetTopArr[i + 1] - 100){
-						leftNav.style.display = 'block';
-						//直接将i赋值给idx,不是NaN需要将上一nav的className设置为false;
+			//是否展示左侧nav
+			var sigal = true;
+			move();
+			function move(){
+				var scrollTop = $document.scrollTop();
+				var y = scrollTop + ($(window).height()- $(".gg").outerHeight()) / 2;
+				$(".gg").stop(true).animate({"top":y},500);
+			}
+			$(window).resize(move);
+			//主页面卷动
+			$(window).scroll(function(event){
+				move();
+				var scrollTop = $document.scrollTop();
+				//大于了最后的楼层底边，出现回到顶部的火箭
+				if(scrollTop > offsetTopArr[offsetTopArr.length - 1] -500){
+					$rocket.css("display",'block');
+				}else {
+					$rocket.css("display",'none');
+				}
+				for (var i = 0; i < offsetTopArr.length; i++) {
+					if(scrollTop > offsetTopArr[i] - 300&& scrollTop < offsetTopArr[i + 1] - 300){
+						if(sigal){
+							$leftNav.css("display",'block');
+						}
 						if(idx != i){
-							
-							!isNaN(idx) && (lis[idx].className = "");
+							//如果不等，说明是下一个楼层，需要先将当前楼层的展示信息清除，如果是NaN表示第一次进入
+							!isNaN(idx) && ($navArr.eq(idx).removeClass("cur"));
+							$navArr.eq(idx).children(":eq(0)").css("display" , 'block');
+							$navArr.eq(idx).children(":eq(1)").css("display" , 'none');
 							idx = i;
-							lis[idx].className = "cur"
+							//给nav加上cur让其显示
+							$navArr.eq(idx).addClass("cur");
+							//当前楼层显示中文
+							$navArr.eq(idx).children(":eq(0)").css("display" , 'none');
+							$navArr.eq(idx).children(":eq(1)").css("display" , 'block');
 						}
 						break;
 					}
 				}
-				//等于length还没有找到，说明在上下
-				if(i == floorOffsetTopArr.length){
-					leftNav.style.display = 'none';
-					!isNaN(idx) && (lis[idx].className = "cur")
+				//如果i == offsetTopArr.length,说明没有找到
+				if(i == offsetTopArr.length){
+					$leftNav.css("display",'none');
 				}
-			}
+			})
 			
-			function getAllTop(obj){
-				var allTop = obj.offsetTop;
-				while(obj = obj.offsetParent){
-					allTop += obj.offsetTop;
-				}
-				return allTop;
-			}
-			
+			//点击的时候动画回到顶部
+			$rocket.click(function(){
+				sigal = false;
+				$("html,body").animate({"scrollTop":0} , 2000,function(){
+					sigal = true;
+				});
+			})
 		</script>
 	</body>
 </html>

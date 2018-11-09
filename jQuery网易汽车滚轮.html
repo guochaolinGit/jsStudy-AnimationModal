@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js" ></script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.car {
+				width: 549px;
+				height: 442px;
+				border: 1px solid darkgray;
+			}
+			
+			.car .car_list {
+				width: 549px;
+				height: 412px;
+			}
+			
+			.car .car_list ul {
+				list-style: none;
+				position: relative;
+			}
+			
+			.car .car_list ul li {
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: none;
+			}
+			
+			.car .car_list ul li.cur {
+				display: block;
+			}
+			
+			.car .bar {
+				width: 420px;
+				/*这个高度是因为背景图的高度就是26，如果大于这个高度，下方的图片会被依次展示上来*/
+				height: 26px;
+				line-height: 26px;
+				font-size: 12px;
+				margin: 0 auto;
+				background: url(img/car/car_pic_ctr.png) repeat-x 0 -26px;
+				position: relative;
+			}
+			
+			.car .bar .pic_l {
+				/*float: left;*/
+				position: absolute;
+				left: 0;
+				width: 0px;
+				height: 26px;
+				padding-left: 20px;
+				background: url(img/car/car_pic_ctr.png) no-repeat 0 0px;
+			}
+			
+			.car .bar .pic_r {
+				/*float: right;*/
+				position: absolute;
+				right: 0;
+				width: 0px;
+				height: 26px;
+				/*因为有了padding,图片被位置只能放在padding的左边，通过更改背景图的x将位置更改*/
+				padding-right: 40px;
+				background: url(img/car/car_pic_ctr.png) no-repeat 20px -78px;
+			}
+			
+			.car .bar .pic_c {
+				position: absolute;
+				left: 20px;
+				top: 0px;
+				/*float: left;*/
+				width: 300px;
+				height: 26px;
+				margin: 0 10px 0 30px;
+				background: url(img/car/car_pic_ctr.png) repeat-x 0 -52px;
+				/*position: relative;*/
+				cursor: pointer;
+			}
+			
+			.car .bar .pic_c .slider {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 21px;
+				height: 26px;
+				background: url(img/car/car_pic_ctr.png) no-repeat 0 -104px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="car">
+			<div class="car_list" id="car_list">
+				<ul>
+					<li class="cur"><img src="img/car/0.jpg" /> </li>
+					<li><img src="img/car/1.jpg" /> </li>
+					<li><img src="img/car/2.jpg" /> </li>
+					<li><img src="img/car/3.jpg" /> </li>
+					<li><img src="img/car/4.jpg" /> </li>
+				</ul>
+			</div>
+			<div class="bar" id="bar">
+				<span class="pic_l">0°</span>
+				<span class="pic_c" id="pic_c">
+					<b class="slider" id="slider"></b>
+				</span>
+				<span class="pic_r">180°</span>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var lis = $(".car_list li");
+			var idx = 0;
+			var step = ($(".pic_c").outerWidth() - $(".slider").outerWidth()) /4;
+			$(".slider").draggable({
+				containment: "parent",
+				grid:[step],
+				drag : function(event,ui){
+					if(idx != parseInt(ui.position.left / step)){
+						lis.eq(idx).fadeOut(10);
+						idx = parseInt(ui.position.left  / step);
+						lis.eq(idx).fadeIn(30);
+					}
+				}
+			})
+			
+			$(".pic_c").click(function(event){
+				var x =  Math.round((event.clientX - $(".pic_c").offset().left)/step);
+				if(idx != x){
+					lis.eq(idx).fadeOut(10);
+					idx = x;
+					lis.eq(idx).fadeIn(30);
+					$(".slider").css("left",idx * step)
+				}
+				
+			})
+		</script>
+	</body>
+
+</html>

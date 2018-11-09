@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.12.3.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.mousewheel.min.js" ></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body{
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+			}
+			.main{
+				height: 100%;
+				width: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.enter{
+				height: 100%;
+				width: 100%;
+			}
+			.n0{
+				background-color: skyblue;
+			}
+			.n1{
+				background-color: hotpink;
+				position: relative;
+			}
+			.n2{
+				background-color: orange;
+			}
+			.n3{
+				background-color: orangered;
+			}
+			.n4{
+				background-color: orchid;
+			}
+			.n1 .img1{
+				position: absolute;
+				left: 300px;
+				top: 0;
+				/*opacity: 0;*/
+				
+				display: none;
+			}
+			.n1 .img2{
+				position: absolute;
+				left: 600px;
+				top: 30px;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			<div class="enter n0"></div>
+			<div class="enter n1">
+				<img src="img/animal/0.jpg" class="img1"/>
+				<img src="img/animal/1.jpg" class="img2"/>
+			</div>
+			<div class="enter n2"></div>
+			<div class="enter n3"></div>
+			<div class="enter n4"></div>
+		</div>
+		<script type="text/javascript">
+			var INNERARR = [];
+			INNERARR[1] = function(){
+//				$(".n1 .img1").animate({"left" : 200,"opacity" : 1},1000);
+//				$(".n1 .img2").delay(500).animate({"left" : 400,"opacity" : 1},1000);
+				$(".n1 .img1").fadeIn(500);
+				$(".n1 .img2").fadeIn(500);
+			}
+			var OUTERARR = [];
+			OUTERARR[1] = function(){
+//				$(".n1 .img1").animate({"left" : -600,"opacity" : 0},500);
+//				$(".n1 .img2").delay(500).animate({"left" : -600,"opacity" : 0},500);
+				$(".n1 .img1").fadeOut(500);
+				$(".n1 .img2").fadeOut(500);
+			}
+			var idx = 0;
+			
+			$(document).mousewheel(function(event){
+				var oldIdx = idx;
+				if($(".main").is(":animated"))return;
+				console.log(event.deltaY)
+				idx += -event.deltaY;
+			
+				if(idx < 0){
+					idx = 0
+				}
+				if(idx > 4){
+					idx = 4;
+				}
+				if(oldIdx != idx){
+					if(typeof OUTERARR[oldIdx] == 'function'){
+						typeof OUTERARR[oldIdx]();
+					}
+					$(".main").animate({"top" : -idx * 100 + "%"},1000,function(){
+					if(typeof INNERARR[idx] == 'function'){
+						oldIdx = idx;
+						INNERARR[idx]();
+					}
+				})
+				}
+				
+			})
+			
+		</script>
+	</body>
+</html>

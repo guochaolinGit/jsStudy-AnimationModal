@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input id="butt1" type="button" value="上一张" />
+	<img id="img" src="img/1.jpeg" alt="" />
+	<input id="butt2" type="button" value="下一张" />
+
+	<script type="text/javascript">
+		//用字符串拼接法
+		var butt1 = document.getElementById("butt1");
+		var butt2 = document.getElementById("butt2");
+		var img = document.getElementById("img");
+		var count = 1;
+		butt1.onclick = function(){
+			if(count > 1){
+				count--;
+				img.src = "img/"+count + ".jpeg";
+			}
+		}
+		butt2.onclick = function(){
+			if(count < 5){
+				count++;
+				img.src = "img/"+count + ".jpeg";
+			}
+		}
+		
+	</script>
+</body>
+</html>

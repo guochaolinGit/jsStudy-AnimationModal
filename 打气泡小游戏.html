@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html{
+				height: 100%;
+			}
+			body{
+				height: 100%;
+				background: url(music/bg.jpg);
+				overflow: hidden;
+				background-size: cover;
+			}
+			/*生成的div节点样式*/
+			div{
+				width: 81px;
+				height: 119px;
+				position: absolute;
+				background: url(img/game/ballon.png) no-repeat;
+				cursor: pointer;
+			}
+			h3{
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<h3 id="point">得分:0</h3>
+		<h3 id="time">倒计时:30</h3>
+		
+		<audio src="music/c.wav" id="music"></audio>
+		<audio src="music/bgm.mp3" autoplay></audio>
+		<script type="text/javascript">
+			//面向对象:将小气泡封装成一个对象
+			//气泡的属性有：直径、分数
+			//气泡的方法有：初始化(生成气泡)、点击之后的爆炸方法
+			function Ballon(){
+				this.top = 600;
+				this.left = Math.random() * 1200;
+				//分数在一到7之间
+				this.score = parseInt(Math.random()*7) + 1 ;
+				//给原型绑定初始化方法，每个小气泡初始化的时候都执行该方法，且初始化的是属于自己的内容
+				this.init();
+				//初始化完成后需要运动
+				this.fly();
+			}
+			//总得分
+			var point = 0;
+			//倒计时
+			var time = 30;
+			var music = document.getElementById("music");
+			
+			//初始化的时候需要生成div用来存放气泡，气泡用的精灵图，所以位置通过分数计算获得
+			Ballon.prototype.init = function(){
+				this.dom = document.createElement("div");
+				//设置定位信息
+				this.dom.style.top = this.top + "px";
+				this.dom.style.left = this.left + "px";
+				document.body.appendChild(this.dom);
+				//设置背景图信息
+				// % 是第几列 / 是第几行
+				this.dom.style.backgroundPosition = -(this.score - 1) % 4  * 96 + "px " + - parseInt((this.score - 1)/ 4) * 120 + "px";
+				//初始化完成之后，需要绑定点击爆炸事件
+				var self = this;
+				this.dom.onclick = function(){
+					//先爆炸
+					self.bomb();
+					point += self.score;
+					document.getElementById("point").innerHTML = "得分:" + point;
+					
+					music.load();
+					music.play();
+				}
+			}
+			Ballon.prototype.fly = function(){
+				var self = this;
+				//添加定时器,减少top,分数越大速度越快
+				this.timmer = setInterval(function(){
+					self.top -= self.score
+					if(self.top < -113){
+						self.bomb();
+					}
+					self.dom.style.top = self.top + "px";
+				},20)
+			}
+			//气球到达顶端后要爆炸
+			Ballon.prototype.bomb = function(){
+				clearInterval(this.timmer);
+				document.body.removeChild(this.dom);
+			}
+			var timeNum = 0;
+			//动态生成Ballon
+			var timeEle = document.getElementById("time");
+			
+			var timmer = setInterval(function(){
+				timeNum++;
+				if(timeNum % 2 == 0){
+					time--;
+					timeEle.innerHTML = "倒计时:" + time;
+				}
+				//判断事件是否到达
+				if(time == 0){
+					clearInterval(timmer);
+				}
+				new Ballon();
+			},500);
+		</script>
+	</body>
+</html>
